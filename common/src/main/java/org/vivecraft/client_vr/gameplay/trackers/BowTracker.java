@@ -11,12 +11,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.phys.Vec3;
+import org.vivecraft.client.VivecraftVRMod;
 import org.vivecraft.client.Xplat;
 import org.vivecraft.client.network.ClientNetworking;
 import org.vivecraft.client_vr.ClientDataHolderVR;
 import org.vivecraft.client_vr.VRData;
 import org.vivecraft.client_vr.extensions.PlayerExtension;
 import org.vivecraft.client_vr.gameplay.VRPlayer;
+import org.vivecraft.client_vr.provider.ControllerType;
 import org.vivecraft.client_vr.settings.VRSettings;
 import org.vivecraft.common.network.CommonNetworkHelper;
 import org.vivecraft.common.utils.math.Vector3;
@@ -128,7 +130,7 @@ public class BowTracker extends Tracker {
 
             if (Xplat.isModLoaded("pehkui")) {
                 // this is meant to be relative to the base Bb height, not the scaled one
-                this.maxDraw /= PehkuiHelper.getPlayerBbScale(player, mc.getFrameTime());
+                this.maxDraw /= PehkuiHelper.getPlayerBbScale(player, mc.getTimer().getGameTimeDeltaPartialTick(false));
             }
 
             Vec3 vec3 = vrdata.getController(0).getPosition();
@@ -143,7 +145,7 @@ public class BowTracker extends Tracker {
             Vec3 vec35 = vrdata.getHand(1).getCustomVector(new Vec3(0.0D, -1.0D, 0.0D));
             Vector3 vector31 = new Vector3((float) vec35.x, (float) vec35.y, (float) vec35.z);
             this.controllersDot = (180D / Math.PI) * Math.acos(vector31.dot(vector3));
-            this.pressed = this.mc.options.keyAttack.isDown();
+            this.pressed = VivecraftVRMod.INSTANCE.keyVRInteract.isDown(ControllerType.RIGHT);
             float f = 0.15F * vrdata.worldScale;
             boolean flag = isHoldingBow(player, InteractionHand.MAIN_HAND);
             InteractionHand interactionhand = flag ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
@@ -161,8 +163,8 @@ public class BowTracker extends Tracker {
                 itemstack1 = player.getOffhandItem();
             }
 
-            int i = itemstack1.getUseDuration();
-            int j = itemstack1.getUseDuration() - 15;
+            int i = itemstack1.getUseDuration(player);
+            int j = itemstack1.getUseDuration(player) - 15;
             int k = 0;
 
             if (itemstack != ItemStack.EMPTY && d0 <= (double) f && this.controllersDot <= 20.0D) {
@@ -222,7 +224,7 @@ public class BowTracker extends Tracker {
                     j1 = (int) (this.getDrawPercent() * 500.0F) + 700;
                 }
 
-                int l = (int) ((float) itemstack1.getUseDuration() - this.getDrawPercent() * (float) this.maxDrawMillis);
+                int l = (int) ((float) itemstack1.getUseDuration(player) - this.getDrawPercent() * (float) this.maxDrawMillis);
                 ((PlayerExtension) player).vivecraft$setItemInUseClient(itemstack1, interactionhand);
                 double d1 = this.getDrawPercent();
 
