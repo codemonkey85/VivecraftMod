@@ -58,7 +58,7 @@ void main(){
     }
 
     if (circle_radius < 0.8){ //arfy barfy
-        vec2 circle_center = vec2(0.5 + eye*circle_offset, 0.5);
+        vec2 circle_center = vec2(0.5 + eye*circle_offset, 0.1);
         vec2 uv = texCoordinates.xy;
         uv -= circle_center;
         float dist =  sqrt(dot(uv, uv));
