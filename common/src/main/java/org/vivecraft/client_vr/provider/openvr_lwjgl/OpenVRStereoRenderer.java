@@ -95,7 +95,7 @@ public class OpenVRStereoRenderer extends VRRenderer {
         GlStateManager._texImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, lwidth, lheight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, null);
         RenderSystem.bindTexture(i);
         this.openvr.texType0.handle(this.LeftEyeTextureId);
-        if (System.getenv("VR_MODEL").contains("PICO")) {
+        if (!System.getenv("VR_MODEL").contains("PICO")) {
             this.openvr.texType0.eColorSpace(VR.EColorSpace_ColorSpace_Gamma);
         } else {
             this.openvr.texType0.eColorSpace(VR.EColorSpace_ColorSpace_Linear);
@@ -110,7 +110,7 @@ public class OpenVRStereoRenderer extends VRRenderer {
         GlStateManager._texImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, lwidth, lheight, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, null);
         RenderSystem.bindTexture(i);
         this.openvr.texType1.handle(this.RightEyeTextureId);
-        if (System.getenv("VR_MODEL").contains("PICO")) {
+        if (!System.getenv("VR_MODEL").contains("PICO")) {
             this.openvr.texType1.eColorSpace(VR.EColorSpace_ColorSpace_Gamma);
         } else {
             this.openvr.texType1.eColorSpace(VR.EColorSpace_ColorSpace_Linear);
